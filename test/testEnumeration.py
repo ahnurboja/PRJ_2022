@@ -153,8 +153,36 @@ class TestGetSolution(unittest.TestCase):
         assert S == expectedS
 
 
-    # def test_complex_case_with_no_optimal(self):
-    #     '''
-    #         Test that getSolution() with 5 meetings where some clash and
-    #         some do not clash returns correct solution when there is no optimal.
-    #     '''
+    def test_complex_case_with_no_optimal(self):
+        '''
+            Test that getSolution() with 5 meetings where some clash and
+            some do not clash returns correct solution when there is no optimal.
+        '''
+
+        i1 = Individual("i1")
+        i2 = Individual("i2")
+        i3 = Individual("i3")
+        i4 = Individual("i4")
+
+        m1 = Meeting('m1', [i1,i2], i1, 2, 5.0, datetime(2021,12,10,20), None)
+        m2 = Meeting('m2', [i1,i2], i2, 2, 4.0, datetime(2021,12,10,8), None)
+        m3 = Meeting('m3', [i1,i3], i2, 4, 3.0, datetime(2021,12,10,11), None)
+        m4 = Meeting('m4', [i2,i4], i2, 3, 2.0, datetime(2021,12,10,15), None)
+        m5 = Meeting('m5', [i4], i2, 5, 1.0, datetime(2021,12,10,20), None)
+
+        enumerate = EnumerationAlgorithm([i1,i2,i3],[m1,m2,m3,m4,m5])
+        S = enumerate.getSolution()
+
+        expectedm1 = copy(m1)
+        expectedm1.t = datetime(2021,12,10,5)
+        expectedm3 = copy(m3)
+        expectedm3.t = datetime(2021,12,10,7)
+        expectedm4 = copy(m4)
+        expectedm4.t = datetime(2021,12,10,7)
+        expectedm5 = copy(m5)
+        expectedm5.t = datetime(2021,12,10,10)
+        expectedS = [expectedm1, expectedm3, expectedm4, expectedm5]
+
+
+        assert S == expectedS
+
