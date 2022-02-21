@@ -69,9 +69,9 @@ class TestGetSolution(unittest.TestCase):
         i2 = Individual("i2")
         i3 = Individual("i3")
 
-        m1 = Meeting([i1,i2,i3], i1, 2, 1.0, datetime(2021,12,10,17), None)
-        m2 = Meeting([i1,i2,i3], i2, 2, 1.0, datetime(2021,12,10,17), None)
-        m3 = Meeting([i1,i2,i3], i2, 4, 1.0, datetime(2021,12,10,17), None)
+        m1 = Meeting([i1,i2,i3], i1, 2, 4.0, datetime(2021,12,10,17), None)
+        m2 = Meeting([i1,i2,i3], i2, 2, 3.0, datetime(2021,12,10,17), None)
+        m3 = Meeting([i1,i2,i3], i2, 4, 2.0, datetime(2021,12,10,17), None)
         m4 = Meeting([i1,i2,i3], i2, 3, 1.0, datetime(2021,12,10,17), None)
 
         enumerate = EnumerationAlgorithm([i1,i2,i3],[m1,m2,m3,m4])
@@ -81,19 +81,40 @@ class TestGetSolution(unittest.TestCase):
         expectedm1.t = datetime(2021,12,10,5)
         expectedm2 = m2
         expectedm2.t = datetime(2021,12,10,7)
-        expectedm2 = m3
-        expectedm2.t = datetime(2021,12,10,11)
-        expectedm2 = m4
-        expectedm2.t = datetime(2021,12,10,14)
-        expectedS = [m1, m2, m3, m4]
+        expectedm3 = m3
+        expectedm3.t = datetime(2021,12,10,11)
+        expectedm4 = m4
+        expectedm4.t = datetime(2021,12,10,14)
+        expectedS = [expectedm1, expectedm2, expectedm3, expectedm4]
 
         assert S == expectedS
     
-    # def test_simple_case_with_no_optimal(self):
-    #     '''
-    #         Test that getSolution() with 4 meetings that always clash returns 
-    #         correct solution when there is no optimal.
-    #     '''
+    def test_simple_case_with_no_optimal(self):
+        '''
+            Test that getSolution() with 4 meetings that always clash returns 
+            correct solution when there is no optimal.
+        '''
+
+        i1 = Individual("i1")
+        i2 = Individual("i2")
+        i3 = Individual("i3")
+
+        m1 = Meeting([i1,i2,i3], i1, 2, 4.0, datetime(2021,12,10,17), None)
+        m2 = Meeting([i1,i2,i3], i2, 2, 3.0, datetime(2021,12,10,8), None)
+        m3 = Meeting([i1,i2,i3], i2, 4, 2.0, datetime(2021,12,10,17), None)
+        m4 = Meeting([i1,i2,i3], i2, 3, 1.0, datetime(2021,12,10,13), None)
+
+        enumerate = EnumerationAlgorithm([i1,i2,i3],[m1,m2,m3,m4])
+        S = enumerate.getSolution()
+
+        expectedm1 = m1
+        expectedm1.t = datetime(2021,12,10,5)
+        expectedm3 = m3
+        expectedm3.t = datetime(2021,12,10,7)
+        expectedS = [expectedm1, expectedm3]
+
+        assert S == expectedS
+
 
     # def test_complex_case_with_optimal(self):
     #     '''
