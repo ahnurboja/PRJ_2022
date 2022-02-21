@@ -22,7 +22,7 @@ class TestClash(unittest.TestCase):
         m1 = Meeting([i1,i2,i3], i1, 2, 1.0, datetime(2021,12,10,18), datetime(2021,12,10,9))
         m2 = Meeting([i1,i3], i2, 2, 1.0, datetime(2021,12,10,18), datetime(2021,12,10,11))
 
-        enumerate = EnumerationAlgorithm([i1,i2,i3],[m1,m2])
+        enumerate = EnumerationAlgorithm([],[])
         assert not enumerate.clash(m1, m2)
 
     def test_when_only_T_clash(self):
@@ -38,7 +38,7 @@ class TestClash(unittest.TestCase):
         m1 = Meeting([i1,i2], i1, 2, 1.0, datetime(2021,12,10,18), datetime(2021,12,10,9))
         m2 = Meeting([i3], i2, 2, 1.0, datetime(2021,12,10,18), datetime(2021,12,10,10))
 
-        enumerate = EnumerationAlgorithm([i1,i2,i3],[m1,m2])
+        enumerate = EnumerationAlgorithm([],[])
         assert not enumerate.clash(m1, m2)
     
     def test_when_clash(self):
@@ -54,5 +54,55 @@ class TestClash(unittest.TestCase):
         m1 = Meeting([i1,i2,i3], i1, 2, 1.0, datetime(2021,12,10,18), datetime(2021,12,10,9))
         m2 = Meeting([i1,i3], i2, 2, 1.0, datetime(2021,12,10,18), datetime(2021,12,10,10))
 
-        enumerate = EnumerationAlgorithm([i1,i2,i3],[m1,m2])
+        enumerate = EnumerationAlgorithm([],[])
         assert enumerate.clash(m1, m2)
+
+class TestGetSolution(unittest.TestCase):
+
+    def test_simple_case_with_optimal(self):
+        '''
+            Test that getSolution() with 4 meetings that always clash returns 
+            correct optimal solution.
+        '''
+    
+        i1 = Individual("i1")
+        i2 = Individual("i2")
+        i3 = Individual("i3")
+
+        m1 = Meeting([i1,i2,i3], i1, 2, 1.0, datetime(2021,12,10,17), None)
+        m2 = Meeting([i1,i2,i3], i2, 2, 1.0, datetime(2021,12,10,17), None)
+        m3 = Meeting([i1,i2,i3], i2, 4, 1.0, datetime(2021,12,10,17), None)
+        m4 = Meeting([i1,i2,i3], i2, 3, 1.0, datetime(2021,12,10,17), None)
+
+        enumerate = EnumerationAlgorithm([i1,i2,i3],[m1,m2,m3,m4])
+        S = enumerate.getSolution()
+
+        expectedm1 = m1
+        expectedm1.t = datetime(2021,12,10,5)
+        expectedm2 = m2
+        expectedm2.t = datetime(2021,12,10,7)
+        expectedm2 = m3
+        expectedm2.t = datetime(2021,12,10,11)
+        expectedm2 = m4
+        expectedm2.t = datetime(2021,12,10,14)
+        expectedS = [m1, m2, m3, m4]
+
+        assert S == expectedS
+    
+    # def test_simple_case_with_no_optimal(self):
+    #     '''
+    #         Test that getSolution() with 4 meetings that always clash returns 
+    #         correct solution when there is no optimal.
+    #     '''
+
+    # def test_complex_case_with_optimal(self):
+    #     '''
+    #         Test that getSolution() with 5 meetings where some clash and
+    #         some do not clash returns correct optimal solution.
+    #     '''
+
+    # def test_complex_case_with_no_optimal(self):
+    #     '''
+    #         Test that getSolution() with 5 meetings where some clash and
+    #         some do not clash returns correct solution when there is no optimal.
+    #     '''
