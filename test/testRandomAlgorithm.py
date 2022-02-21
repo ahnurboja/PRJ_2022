@@ -12,15 +12,15 @@ class TestGetCost(unittest.TestCase):
         """
         Test that the cost calculated from an optimal solution is zero
         """
-        i1 = Individual("i1", [])
-        i2 = Individual("i2", [])
-        i3 = Individual("i3", [])
-        i4 = Individual("i4", [])
-        i5 = Individual("i5", [])
+        i1 = Individual("i1")
+        i2 = Individual("i2")
+        i3 = Individual("i3")
+        i4 = Individual("i4")
+        i5 = Individual("i5")
 
-        m1 = Meeting([i1,i3,i4,i5], i1, 1, 1.0, datetime(2021,12,10,18),  datetime(2021,12,10,9))
-        m2 = Meeting([i1,i3,i4,i5], i3, 1, 1.0, datetime(2021,12,10,18),  datetime(2021,12,10,11))
-        m3 = Meeting([i4,i5], i4, 2, 1.0, datetime(2021,12,10,18),  datetime(2021,12,10,16))
+        m1 = Meeting('m1', [i1,i3,i4,i5], i1, 1, 1.0, datetime(2021,12,10,18),  datetime(2021,12,10,9))
+        m2 = Meeting('m2', [i1,i3,i4,i5], i3, 1, 1.0, datetime(2021,12,10,18),  datetime(2021,12,10,11))
+        m3 = Meeting('m3', [i4,i5], i4, 2, 1.0, datetime(2021,12,10,18),  datetime(2021,12,10,16))
 
         I=[]
         M=[m1,m2,m3]    
@@ -35,15 +35,15 @@ class TestGetCost(unittest.TestCase):
         """
         Test that the cost calculated from different solutions is correct
         """
-        i1 = Individual("i1", [])
-        i2 = Individual("i2", [])
-        i3 = Individual("i3", [])
-        i4 = Individual("i4", [])
-        i5 = Individual("i5", [])
+        i1 = Individual("i1")
+        i2 = Individual("i2")
+        i3 = Individual("i3")
+        i4 = Individual("i4")
+        i5 = Individual("i5")
 
-        m1 = Meeting([i1,i3,i4,i5], i1, 1, 2, datetime(2021,12,10,18),  datetime(2021,12,10,9))
-        m2 = Meeting([i1,i3,i4,i5], i3, 1, 1.5, datetime(2021,12,10,18),  datetime(2021,12,10,11))
-        m3 = Meeting([i4,i5], i4, 2, 0.5, datetime(2021,12,10,18),  datetime(2021,12,10,16))
+        m1 = Meeting('m1', [i1,i3,i4,i5], i1, 1, 2, datetime(2021,12,10,18),  datetime(2021,12,10,9))
+        m2 = Meeting('m2', [i1,i3,i4,i5], i3, 1, 1.5, datetime(2021,12,10,18),  datetime(2021,12,10,11))
+        m3 = Meeting('m3', [i4,i5], i4, 2, 0.5, datetime(2021,12,10,18),  datetime(2021,12,10,16))
 
         I=[]
         M=[m1,m2,m3]
@@ -70,17 +70,17 @@ class TestRemoveOverlap(unittest.TestCase):
         """
         Test that overlaps are removed when there is a clash with time and individuals
         """
-        i1 = Individual("i1", [])
-        i2 = Individual("i2", [])
-        i3 = Individual("i3", [])
-        i4 = Individual("i4", [])
-        i5 = Individual("i5", [])
+        i1 = Individual("i1")
+        i2 = Individual("i2")
+        i3 = Individual("i3")
+        i4 = Individual("i4")
+        i5 = Individual("i5")
 
-        m1 = Meeting([i1,i2,i3], i1, 6, 1, datetime(2021,12,10,9),  datetime(2021,12,10,15))
-        m2 = Meeting([i1,i3,i4,i5], i3, 4, 1, datetime(2021,12,10,13),  datetime(2021,12,10,17))
-        m3 = Meeting([i2,i5], i4, 4, 0, datetime(2021,12,10,11),  datetime(2021,12,10,16))
-        m4 = Meeting([i3,i4,i5], i4, 4, 0, datetime(2021,12,10,10),  datetime(2021,12,10,14))
-        m5 = Meeting([i4,i5], i4, 4, 0, datetime(2021,12,10,12),  datetime(2021,12,10,16))
+        m1 = Meeting('m1', [i1,i2,i3], i1, 6, 1, datetime(2021,12,10,9),  datetime(2021,12,10,15))
+        m2 = Meeting('m2', [i1,i3,i4,i5], i3, 4, 1, datetime(2021,12,10,13),  datetime(2021,12,10,17))
+        m3 = Meeting('m3', [i2,i5], i4, 4, 0, datetime(2021,12,10,11),  datetime(2021,12,10,16))
+        m4 = Meeting('m4', [i3,i4,i5], i4, 4, 0, datetime(2021,12,10,10),  datetime(2021,12,10,14))
+        m5 = Meeting('m5', [i4,i5], i4, 4, 0, datetime(2021,12,10,12),  datetime(2021,12,10,16))
 
         I=[i1,i3,i4,i5]
         M=[m1,m2,m3,m4,m5]
