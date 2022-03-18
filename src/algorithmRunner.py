@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from randomAlgorithm import RandomAlgorithm
 from enumeration import EnumerationAlgorithm
+from SA import SimulatedAnnealing
 
 class AlgorithmRunner:
 
@@ -13,6 +14,7 @@ class AlgorithmRunner:
     def __init__(self, I, M):
         randomAlgorithm = RandomAlgorithm(I, M)
         enumerationAlgorithm = EnumerationAlgorithm(I,M)
+        simulatedAnnealing = SimulatedAnnealing(I,M)
 
         self.totalW = 0
         for m in M:
@@ -21,6 +23,7 @@ class AlgorithmRunner:
         self.algorithms = [
             randomAlgorithm,
             enumerationAlgorithm,
+            simulatedAnnealing
         ]
 
     def runAlgorithms(self):
@@ -38,7 +41,7 @@ class AlgorithmRunner:
             self.efficiencies.append(weights/self.totalW)
 
     def createGraphs(self):
-        names = ["Random", "Enumeration"]
+        names = ["Random", "Enumeration", "SA"]
 
         fig, axs = plt.subplots(1, 2, figsize=(10, 5))
         axs[0].bar(names, self.efficiencies)
