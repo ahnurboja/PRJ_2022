@@ -13,16 +13,16 @@ import itertools
 class RandomAlgorithm:
 
     counter = 0 # Counter for number of solutions searched.
-    n = 20 # Number of iterations
     I = [] # Set of individuals
     M = [] # Set of meetings to be scheduled
     # now = datetime.now().replace(microsecond=0, second=0, minute=0)
     now = datetime(2021,12,10,5)
     totalWeights = 0 # Total weights of the unscheduled meetings
 
-    def __init__(self, I, M):
+    def __init__(self, I, M, n):
         self.I = I
         self.M = M
+        self.n = n
 
     def pickRandomSolution(self):
 

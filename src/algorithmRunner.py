@@ -4,6 +4,7 @@ import numpy as np
 from randomAlgorithm import RandomAlgorithm
 from enumeration import EnumerationAlgorithm
 from SA import SimulatedAnnealing
+import copy
 
 class AlgorithmRunner:
 
@@ -12,9 +13,9 @@ class AlgorithmRunner:
     performances = []
 
     def __init__(self, I, M):
-        randomAlgorithm = RandomAlgorithm(I, M)
-        enumerationAlgorithm = EnumerationAlgorithm(I,M)
-        simulatedAnnealing = SimulatedAnnealing(I,M)
+        randomAlgorithm = RandomAlgorithm(copy.deepcopy(I), copy.deepcopy(M), 100)
+        enumerationAlgorithm = EnumerationAlgorithm(copy.deepcopy(I), copy.deepcopy(M))
+        simulatedAnnealing = SimulatedAnnealing(copy.deepcopy(I), copy.deepcopy(M), 100)
 
         self.totalW = 0
         for m in M:
@@ -50,6 +51,9 @@ class AlgorithmRunner:
         axs[1].bar(names, self.performances)
         axs[1].set_ylabel("performance")
         fig.suptitle('Global Efficiency & Performance')
+
+        print('Random Algorithm solution:')
+        print(self.solutions[0])
 
         plt.show()
             
