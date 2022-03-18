@@ -76,8 +76,5 @@ class RandomAlgorithm:
             elif newCost < currentCost:
                 currS = newS
                 currentCost = newCost
-        
-        print('Before: ',currS)
         S = self.removeOverlaps(currS)
-        print('After: ',S)
         return (S, self.counter)

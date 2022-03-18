@@ -1,4 +1,6 @@
 import random
+import matplotlib.pyplot as plt
+import numpy as np
 from randomAlgorithm import RandomAlgorithm
 from enumeration import EnumerationAlgorithm
 
@@ -35,6 +37,18 @@ class AlgorithmRunner:
                 weights += m.w
             self.efficiencies.append(weights/self.totalW)
 
+    def createGraphs(self):
+        names = ["Random", "Enumeration"]
+
+        fig, axs = plt.subplots(1, 2, figsize=(10, 5))
+        axs[0].bar(names, self.efficiencies)
+        axs[0].set_ylim(ymin=0,ymax=1)
+        axs[0].set_ylabel("efficiency")
+        axs[1].bar(names, self.performances)
+        axs[1].set_ylabel("performance")
+        fig.suptitle('Global Efficiency & Performance')
+
+        plt.show()
             
 
 
@@ -55,8 +69,10 @@ M = [m1,m2,m3,m4]
 runner = AlgorithmRunner(I, M)
 runner.runAlgorithms()
 
-for i in range(len(runner.algorithms)):
-    print('\n\n\nAlgorithm ', runner.algorithms[i], ':')
-    print('\nSolution:\n', runner.solutions[i])
-    print('\nEfficiency: ', runner.efficiencies[i])
-    print('\nPerformances: ', runner.performances[i])
+# for i in range(len(runner.algorithms)):
+#     print('\n\n\nAlgorithm ', runner.algorithms[i], ':')
+#     print('\nSolution:\n', runner.solutions[i])
+#     print('\nEfficiency: ', runner.efficiencies[i])
+#     print('\nPerformances: ', runner.performances[i])
+
+runner.createGraphs()
