@@ -8,14 +8,14 @@ import copy
 
 class AlgorithmRunner:
 
-    solutions = []
-    efficiencies = []
-    performances = []
-
     def __init__(self, I, M):
-        randomAlgorithm = RandomAlgorithm(copy.deepcopy(I), copy.deepcopy(M), 100)
+        self.solutions = []
+        self.efficiencies = []
+        self.performances = []
+
+        randomAlgorithm = RandomAlgorithm(copy.deepcopy(I), copy.deepcopy(M), 1000)
         enumerationAlgorithm = EnumerationAlgorithm(copy.deepcopy(I), copy.deepcopy(M))
-        simulatedAnnealing = SimulatedAnnealing(copy.deepcopy(I), copy.deepcopy(M), 100)
+        simulatedAnnealing = SimulatedAnnealing(copy.deepcopy(I), copy.deepcopy(M), 1000)
 
         self.totalW = 0
         for m in M:
@@ -52,34 +52,5 @@ class AlgorithmRunner:
         axs[1].set_ylabel("performance")
         fig.suptitle('Global Efficiency & Performance')
 
-        print('Random Algorithm solution:')
-        print(self.solutions[0])
-
         plt.show()
             
-
-
-from scheduler import Individual, Meeting
-from datetime import datetime
-
-i1 = Individual("i1")
-i2 = Individual("i2")
-i3 = Individual("i3")
-
-m1 = Meeting('m1', [i1,i2,i3], i1, 2, 4.0, datetime(2021,12,10,17), None)
-m2 = Meeting('m2', [i1,i2,i3], i2, 2, 3.0, datetime(2021,12,10,8), None)
-m3 = Meeting('m3', [i1,i2,i3], i2, 4, 2.0, datetime(2021,12,10,17), None)
-m4 = Meeting('m4', [i1,i2,i3], i2, 3, 1.0, datetime(2021,12,10,13), None)
-
-I = [i1,i2,i3]
-M = [m1,m2,m3,m4]
-runner = AlgorithmRunner(I, M)
-runner.runAlgorithms()
-
-# for i in range(len(runner.algorithms)):
-#     print('\n\n\nAlgorithm ', runner.algorithms[i], ':')
-#     print('\nSolution:\n', runner.solutions[i])
-#     print('\nEfficiency: ', runner.efficiencies[i])
-#     print('\nPerformances: ', runner.performances[i])
-
-runner.createGraphs()
