@@ -5,6 +5,7 @@ from randomAlgorithm import RandomAlgorithm
 from enumeration import EnumerationAlgorithm
 from SA import SimulatedAnnealing
 import copy
+from time import time
 
 class AlgorithmRunner:
 
@@ -13,9 +14,9 @@ class AlgorithmRunner:
         self.efficiencies = []
         self.performances = []
 
-        randomAlgorithm = RandomAlgorithm(copy.deepcopy(I), copy.deepcopy(M), 1000)
+        randomAlgorithm = RandomAlgorithm(copy.deepcopy(I), copy.deepcopy(M), 100)
         enumerationAlgorithm = EnumerationAlgorithm(copy.deepcopy(I), copy.deepcopy(M))
-        simulatedAnnealing = SimulatedAnnealing(copy.deepcopy(I), copy.deepcopy(M), 1000)
+        simulatedAnnealing = SimulatedAnnealing(copy.deepcopy(I), copy.deepcopy(M), 100)
 
         self.totalW = 0
         for m in M:
@@ -28,10 +29,30 @@ class AlgorithmRunner:
         ]
 
     def runAlgorithms(self):
-        for algorithm in self.algorithms:
-            (S, P) = algorithm.run()
-            self.solutions.append(S)
-            self.performances.append(P)
+        # for algorithm in self.algorithms:
+        #     (S, P) = algorithm.run()
+        #     self.solutions.append(S)
+        #     self.performances.append(P)
+        # Random Algorithm:
+        start = time()
+        (S, P) = self.algorithms[0].run()
+        self.solutions.append(S)
+        self.performances.append(P)
+        print("Random Algorithm Running Time: ",time()-start)
+        # Enumeration Algorithm:
+        start = time()
+        (S, P) = self.algorithms[1].run()
+        self.solutions.append(S)
+        self.performances.append(P)
+        print("Enumeration Algorithm Running Time: ",time()-start)
+        # Simulated Annealing:
+        start = time()
+        (S, P) = self.algorithms[2].run()
+        self.solutions.append(S)
+        self.performances.append(P)
+        print("Simulated Annealing Running Time: ",time()-start)
+
+
         self.calculateEfficiencies()
     
     def calculateEfficiencies(self):
