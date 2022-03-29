@@ -3,11 +3,11 @@ from algorithmRunner import AlgorithmRunner
 import matplotlib.pyplot as plt
 import numpy as np
 from time import time
+import schedulerUtils as su
 
 class ComplexityAnalyzer:
 
-    maxComplexity = 250
-    generator = InputGenerator(maxComplexity)
+    maxComplexity = 100
 
     def __init__(self):
 
@@ -19,7 +19,8 @@ class ComplexityAnalyzer:
     def run(self):
         efficiencies3DArray = []
         performance3DArray = []
-        for i in range(10):
+        for i in range(50):
+            print(i+1)
             efficiencies2DArray = []
             performance2DArray = []
             for complexity in range(1, self.maxComplexity+1, 10):
@@ -38,6 +39,7 @@ class ComplexityAnalyzer:
         plt.plot(complexities, np.array(efficiencies)[:,0], label='Random Algorithm')
         plt.plot(complexities, np.array(efficiencies)[:,1], label='Enumeration Algorithm')
         plt.plot(complexities, np.array(efficiencies)[:,2], label='Simulated Annealing')
+        # plt.plot(complexities, np.array(efficiencies)[:,3], label='Genetic Algorithm')
         plt.legend()
         plt.show()
 

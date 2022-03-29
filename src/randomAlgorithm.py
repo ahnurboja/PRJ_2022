@@ -2,6 +2,7 @@
 # Output: inputListOfMeetings, numberOfSolutionsSearched
 
 from scheduler import *
+import schedulerUtils as su
 import sys
 import random
 from datetime import datetime, timedelta
@@ -34,34 +35,13 @@ class RandomAlgorithm:
             S.append(m)
 
         return S
-    
-    def removeOverlaps(self, S):
-        overlaps = True
-        while(overlaps):
-            overlaps = False
-            for i in range(len(S)-1):
-                m1 = S[i]
-                for j in range(i+1,len(S)):
-                    m2 = S[j]
-                    if max(m1.t,m2.t) < min(m1.t+timedelta(hours=m1.l),m2.t+timedelta(hours=m2.l)) and len(set(m1.A).intersection(m2.A)) > 0:
-                        # if there is an overlap: remove the lowest priority
-                        if m1.w > m2.w:
-                            del S[j]
-                        else:
-                            del S[i]
-                        overlaps = True
-                        break
-                else:
-                    continue
-                break
-        return(S)
                     
                 
 
 
     # calculate cost of solution S
     def getCost(self, S):
-        return 1 - (sum(m.w for m in S) / sum(m.w for m in self.M))
+        return 1 - (su.getUtility(S) / sum(m.w for m in self.M))
     
     def run(self):
         currS = []
@@ -69,12 +49,11 @@ class RandomAlgorithm:
         for i in range(self.n):
             newS = self.pickRandomSolution()
             self.counter += 1
-            newS = self.removeOverlaps(newS)
             newCost = self.getCost(newS)
             if newCost == 0:
                 return (newS, newCost)
             elif newCost < currentCost:
                 currS = newS
                 currentCost = newCost
-        S = self.removeOverlaps(currS)
+        S = currS
         return (S, self.counter)

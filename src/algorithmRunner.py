@@ -1,9 +1,11 @@
-import random
+import schedulerUtils as su
 import matplotlib.pyplot as plt
 import numpy as np
+from genGA import GeneticAlgorithm
 from randomAlgorithm import RandomAlgorithm
 from enumeration import EnumerationAlgorithm
 from SA import SimulatedAnnealing
+from genGA import GeneticAlgorithm
 import copy
 from time import time
 
@@ -14,9 +16,10 @@ class AlgorithmRunner:
         self.efficiencies = []
         self.performances = []
 
-        randomAlgorithm = RandomAlgorithm(copy.deepcopy(I), copy.deepcopy(M), 100)
+        randomAlgorithm = RandomAlgorithm(copy.deepcopy(I), copy.deepcopy(M), 1000)
         enumerationAlgorithm = EnumerationAlgorithm(copy.deepcopy(I), copy.deepcopy(M))
-        simulatedAnnealing = SimulatedAnnealing(copy.deepcopy(I), copy.deepcopy(M), 100)
+        simulatedAnnealing = SimulatedAnnealing(copy.deepcopy(I), copy.deepcopy(M), 1000)
+        geneticAlgorithm = GeneticAlgorithm(copy.deepcopy(I), copy.deepcopy(M), 5)
 
         self.totalW = 0
         for m in M:
@@ -25,7 +28,8 @@ class AlgorithmRunner:
         self.algorithms = [
             randomAlgorithm,
             enumerationAlgorithm,
-            simulatedAnnealing
+            simulatedAnnealing,
+            geneticAlgorithm
         ]
 
     def runAlgorithms(self):
@@ -38,29 +42,32 @@ class AlgorithmRunner:
         (S, P) = self.algorithms[0].run()
         self.solutions.append(S)
         self.performances.append(P)
-        print("Random Algorithm Running Time: ",time()-start)
+        # print("Random Algorithm Running Time: ",time()-start)
         # Enumeration Algorithm:
         start = time()
         (S, P) = self.algorithms[1].run()
         self.solutions.append(S)
         self.performances.append(P)
-        print("Enumeration Algorithm Running Time: ",time()-start)
+        # print("Enumeration Algorithm Running Time: ",time()-start)
         # Simulated Annealing:
         start = time()
         (S, P) = self.algorithms[2].run()
         self.solutions.append(S)
         self.performances.append(P)
-        print("Simulated Annealing Running Time: ",time()-start)
+        # print("Simulated Annealing Running Time: ",time()-start)
+        # # Genetic Algorithm:
+        # start = time()
+        # (S, P) = self.algorithms[3].run()
+        # self.solutions.append(S)
+        # self.performances.append(P)
+        # print("Genetic ALgorithm Running Time: ",time()-start)
 
 
         self.calculateEfficiencies()
     
     def calculateEfficiencies(self):
         for S in self.solutions:
-            weights = 0
-            for m in S:
-                weights += m.w
-            self.efficiencies.append(weights/self.totalW)
+            self.efficiencies.append(su.getUtility(S)/self.totalW)
 
     def createGraphs(self):
         names = ["Random", "Enumeration", "SA"]

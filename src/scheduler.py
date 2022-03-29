@@ -10,6 +10,14 @@ class Individual:
 
     def __repr__(self):
         return "%s" % (self.name)
+
+    def __eq__(self, other):
+        if (isinstance(other, Individual)):
+            return self.name == other.name
+        return False
+    
+    def __hash__(self):
+        return id(self)
     
 
 # Meeting (Unscheduled Meetings will have null t):
@@ -39,3 +47,6 @@ class Meeting:
     
     def __hash__(self):
         return id(self)
+
+    def __lt__(self, other):
+        return self.w < other.w

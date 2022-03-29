@@ -1,4 +1,5 @@
 from scheduler import *
+import schedulerUtils as su
 from datetime import datetime, timedelta
 from faker import Faker
 fake = Faker()
@@ -42,31 +43,9 @@ class SimulatedAnnealing:
     def getTemp(self, i, T):
         return T*(0.95**i)
 
-    def removeOverlaps(self, S):
-        overlaps = True
-        while(overlaps):
-            overlaps = False
-            for i in range(len(S)-1):
-                m1 = S[i]
-                for j in range(i+1,len(S)):
-                    m2 = S[j]
-                    if max(m1.t,m2.t) < min(m1.t+timedelta(hours=m1.l),m2.t+timedelta(hours=m2.l)) and len(set(m1.A).intersection(m2.A)) > 0:
-                        # if there is an overlap: remove the lowest priority
-                        if m1.w > m2.w:
-                            del S[j]
-                        else:
-                            del S[i]
-                        overlaps = True
-                        break
-                else:
-                    continue
-                break
-        return(S)
-
     def getCost(self, S):
         tempS = S[:]
-        tempS = self.removeOverlaps(tempS)
-        return 1 - (sum(m.w for m in tempS) / sum(m.w for m in self.M))
+        return 1 - (su.getUtility(S) / sum(m.w for m in self.M))
 
     def simAnneal(self):
         currS = self.pickRandomSolution()
@@ -92,4 +71,4 @@ class SimulatedAnnealing:
 
         S = self.simAnneal()
 
-        return (self.removeOverlaps(S), self.counter)
+        return (S, self.counter)
